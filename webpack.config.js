@@ -21,3 +21,5 @@ module.exports = {
       ]
    },
 };
+
+//ligar: yarn webpack serve
