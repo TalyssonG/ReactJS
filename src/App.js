@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import api from './services/api';
 
 import './App.css';
-import backgroundImage from './assets/backgroundImage.jpg';
+
 
 import Header from './componentes/Header';
 
@@ -11,10 +12,14 @@ import Header from './componentes/Header';
 - Estado e Imutabilidade
 */
 function App() {
+    
+    const [projects, setProjects] = useState([]);
 
-
-    const [projects, setProjects] = useState(['Developer APP', 'Front end']);
-
+    useEffect(() => {
+        api.get('projects').then(response => {
+            setProjects(response.data);
+        });
+    }, []);
 
     function handleAddProject() {
         // projects.push(`Novo projeto ${Date.now()}`);
@@ -28,9 +33,8 @@ function App() {
         <>
             <Header title="Projects" />
 
-            <img width={100} src={backgroundImage}/>
             <ul>
-                {projects.map(project => <li key={project}>{project}</li>)}
+                {projects.map(project => <li key={project.id}>{project.title}</li>)}
             </ul>
 
             <button type="button" onClick={handleAddProject}>Adicionar projeto</button>
